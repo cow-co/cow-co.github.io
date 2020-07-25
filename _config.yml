@@ -42,6 +42,11 @@ google_analytics:
 # Used for Sitemap.xml and your RSS feed
 url:
 
+github:
+  url: https://github.com/cow-co
+  sec_url: https://github.com/cybersecmoo
+  sci_url: https://github.com/sci-cow
+
 # If you're hosting your site at a Project repository on GitHub pages
 # (http://yourusername.github.io/repository-name)
 # and NOT your User repository (http://yourusername.github.io)
