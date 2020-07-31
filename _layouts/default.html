@@ -10,6 +10,20 @@
   </head>
 
   <body>
+
+    <script type="text/javascript">
+      function filterUsingCategory(selectedCategory) {
+        var id = 0;
+        {% for post in site.posts %}
+          var cats = {{ post.categories | jsonify }}
+
+          var postDiv = document.getElementById(++id);
+          postDiv.style.display = (selectedCategory == 'All' || cats.includes(selectedCategory)) 
+            ? 'unset' 
+            : 'none';
+        {% endfor %}
+      }
+    </script>
     <header>
       <div class="container">
         <a id="a-title" href="{{ '/' | relative_url }}">
@@ -18,9 +32,12 @@
         <h2>{{ site.description | default: site.github.project_tagline }}</h2>
 
         <section id="quicklinks">
-          <a href="#">Web App Posts</a>
-          <a href="#">Cybersecurity Posts</a>
-          <a href="#">Science Posts</a>
+          <button id="All" class="btn" onclick="filterUsingCategory('All')">*Show All Posts*</button>
+          {% assign categories = site.categories | sort %}
+          {% for category in categories %}
+            {% assign cat = category | first %}
+            <button id="{{ cat }}" class="btn" onclick="filterUsingCategory(this.id)">{{ cat }}</button>
+          {% endfor %}
         </section>
       </div>
     </header>

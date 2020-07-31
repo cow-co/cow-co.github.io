@@ -2,30 +2,6 @@
 layout: default
 ---
 
-<script type="text/javascript">
-  function filterUsingCategory(selectedCategory) {
-    var id = 0;
-    {% for post in site.posts %}
-      var cats = {{ post.categories | jsonify }}
-
-      var postDiv = document.getElementById(++id);
-      postDiv.style.display = (selectedCategory == 'All' || cats.includes(selectedCategory)) 
-        ? 'unset' 
-        : 'none';
-    {% endfor %}
-  }
-</script>
-
-<div>
-  <button id="All" onclick="filterUsingCategory('All')">*Show All Posts*</button>
-  {% assign categories = site.categories | sort %}
-  {% for category in categories %}
-    {% assign cat = category | first %}
-    <button id="{{ cat }}" onclick="filterUsingCategory(this.id)">{{ cat }}</button>
-  {% endfor %}
-  <hr />
-</div>
-
 <div class="posts">
   {% assign id = 0 %}
   {% for post in site.posts %}
