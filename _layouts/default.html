@@ -32,11 +32,11 @@
         <h2>{{ site.description | default: site.github.project_tagline }}</h2>
 
         <section id="quicklinks">
-          <button id="All" class="btn" onclick="filterUsingCategory('All')">*Show All Posts*</button>
+          <a id="All" class="btn" onclick="filterUsingCategory('All')">*Show All Posts*</a>
           {% assign categories = site.categories | sort %}
           {% for category in categories %}
             {% assign cat = category | first %}
-            <button id="{{ cat }}" class="btn" onclick="filterUsingCategory(this.id)">{{ cat }}</button>
+            <a id="{{ cat }}" class="btn" onclick="filterUsingCategory(this.id)">{{ cat }}</a>
           {% endfor %}
         </section>
       </div>
