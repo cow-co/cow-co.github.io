@@ -1,7 +1,7 @@
 ---
 layout: post
-title: HackTheBox Legacy Walkthrough
-categories: security All
+title: HTB Legacy Walkthrough
+categories: security
 ---
 
 ## Summary
