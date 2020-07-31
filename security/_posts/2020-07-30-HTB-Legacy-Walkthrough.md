@@ -1,7 +1,7 @@
 ---
 layout: post
 title: HackTheBox Legacy Walkthrough
-tags: security htb ctf
+categories: security All
 ---
 
 ## Summary
