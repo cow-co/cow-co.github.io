@@ -38,7 +38,7 @@ Your first port of call is to create a web shell instance; to do this you first 
 
 Once these are all set up, you can click the "Submit" button, and your shell is created!
 
-![Create a Shell Instance](../../images/security/brownie-tub/create-shell.png)
+[<img src="{{ site.baseurl }}/images/security/brownie-tub/create-shell.PNG" alt="Create a new shell instance" style="width: 400px;"/>]({{ site.baseurl }}/images/security/brownie-tub/create-shell.PNG)
 
 ### Interacting with the Filesystem
 
