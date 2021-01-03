@@ -26,3 +26,12 @@ A given process (say, electron-muon scattering) can generally proceed by many sp
 
 Each diagram will have its own probability of happening. The amplitude, $$\mathcal{M}$$, tells us what this probability is (more strictly, it's the squared amplitude, averaged over spins where necessary, that does this).
 
+### Feynman Rules: The Ritual
+
+Now, these Feynman rules come from the underlying quantum field theories describing the process at hand (for example quantum electrodynamics), and will differ based on the interactions in play - QED Feynman rules are different than QCD ones, for example. But they all follow a high-level ritual:
+
+1. External lines: First we take into account the external lines; normally this means spinors (i.e. spin states) and perhaps things like colour states too.
+2. Vertices: each vertex gets a factor related to the coupling between the particles involved. The vertex also gets a delta function encoding conservation of four-momentum (i.e. energy and three-momentum); by conserving four-momentum at every vertex, we ensure that it is conserved for the process as a whole. Note that this can still lead to virtual particles being well off their mass shell, as long as the diagram as a whole conserves $$p$$, and the amplitude of the diagram will decrease the further off shell the virtual particles are.
+3. Internal lines: each internal line gets a propagator term, dependent on what sort of mediating particle it is, as well as another delta function.
+4. Integration: We then integrate over $$q_i$$, the momenta of the internal lines.
+5. Cancel the delta-function: We will be left with a factor encoding conservation of energy/momentum; we get rid of this and replace with an $$i$$, since it is taken care of elsewhere.
