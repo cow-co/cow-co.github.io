@@ -35,3 +35,11 @@ Now, these Feynman rules come from the underlying quantum field theories describ
 3. Internal lines: each internal line gets a propagator term, dependent on what sort of mediating particle it is, as well as another delta function.
 4. Integration: We then integrate over $$q_i$$, the momenta of the internal lines.
 5. Cancel the delta-function: We will be left with a factor encoding conservation of energy/momentum; we get rid of this and replace with an $$i$$, since it is taken care of elsewhere.
+
+This leaves us with $$\mathcal{M}$$, which we can then use to calculate cross-sections and decay rates.
+
+## Conclusion
+
+Feynman diagrams are a crucial part of modern particle physics, and are more than simply a schematic representation of the geometry of an interaction. Hopefully this post has given a bit of insight into their power.
+
+My next physics post will probably be a quick introduction to gauge invariance and the Higgs mechanism.
