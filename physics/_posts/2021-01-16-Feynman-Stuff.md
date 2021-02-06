@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The Basics of Feynman Diagrams, for the Layperson
+title: "The Basics of Feynman Diagrams, for the Layperson"
 categories: physics
 ---
 
