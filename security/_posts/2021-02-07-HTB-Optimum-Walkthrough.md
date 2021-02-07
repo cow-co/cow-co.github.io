@@ -1,12 +1,12 @@
 ---
 layout: post
-title: HTB Jerry Walkthrough
+title: HTB Optimum Walkthrough
 categories: security
 ---
 
 ## Summary
 
-Jerry is another easy box, with a focus this time on brute-forcing credentials. Not much more to say, really, so without further ado, let's hop to it!
+It continues to be catchups time for me, as I write up retired HTB boxes that I did a while back. This time round, it's Optimum; an easy Windows box by `ch4p`.
 
 ## External Reconnaisance
 
@@ -14,11 +14,11 @@ Jerry is another easy box, with a focus this time on brute-forcing credentials. 
 
 As we always do with HTB boxes, we will begin with some NMap reconnaisance. We first conduct a scan against the top 1000 ports, with scripts enabled:
 
-`sudo nmap -v -sC -sS -oX nmap-10-10-10-95-scripted.xml 10.10.10.95`,
+`sudo nmap -v -sC -sS -oX nmap-10-10-10-7-scripted.xml 10.10.10.7`,
 
 and follow that up with a non-script scan of all 65535 ports:
 
-`nmap -v -p- -oX nmap-10-10-10-95-full.xml 10.10.10.95`
+`nmap -v -p- -oX nmap-10-10-10-7-full.xml 10.10.10.7`
 
 We find the following ports are open:
 
