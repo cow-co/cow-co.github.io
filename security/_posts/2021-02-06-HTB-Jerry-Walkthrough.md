@@ -6,7 +6,7 @@ categories: security
 
 ## Summary
 
-Beep is another easy box, focusing again on simple searching for published exploits. However, unlike [Legacy]({% post_url 2020-07-30-HTB-Legacy-Walkthrough %}), there is more junk to sift through during the reconnaisance phase.
+Jerry is another easy box, with a focus this time on brute-forcing credentials. Not much more to say, really, so without further ado, let's hop to it!
 
 ## External Reconnaisance
 
