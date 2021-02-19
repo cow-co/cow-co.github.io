@@ -62,11 +62,11 @@ This is where things get subtle. So I'm going to really gloss over a whole bunch
 
 By choosing a ground state, we "break" the symmetry of the system; a Lagrangian for which a particular symmetry holds may no longer have that symmetry once we rewrite it in terms of our chosen ground state. We call this type of symmetry-breaking "spontaneous", because no external agent has instigated it.
 
-By applying this technique to our Lagrangian, we get a massive field (hooray!), but also some *massless* (so-called "Goldstone") bosons. Which is less good.
+By applying this technique to our Lagrangian, we get a massive field (which is fine), but also some *massless* (so-called "Goldstone") bosons. Which is less good.
 
 ## The Higgs Mechanism
 
-What do we do now?! 
+We've been obliged to introduce even more fields, some of which are *massless*, and we still don't have anything that looks like our massive weak mediators. What do we do now?! 
 
 Local gauge invariance, is what. It turns out that we can *choose* a gauge (that is, choose a specific transformation) such that the Goldstone bosons disappear entirely! Remember, because our Lagrangian is invariant under such transformations, we are completely free to do this. 
 
