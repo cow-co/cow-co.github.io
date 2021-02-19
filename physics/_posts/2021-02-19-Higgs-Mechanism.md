@@ -58,6 +58,24 @@ But if mass terms break our gauge invariance, how then do we account for the wea
 
 ## Spontaneous Symmetry-Breaking
 
+This is where things get subtle. So I'm going to really gloss over a whole bunch of the rigorous stuff here. All you need to know for this is that, in order to apply our Feynman calculus, we must find the ground state (the state with lowest potential $$\mathcal{V}$$) of the system. But some systems have *multiple* ground states - the ground state is said to be "degenerate". So we have to *choose* one of these. 
 
+By choosing a ground state, we "break" the symmetry of the system; a Lagrangian for which a particular symmetry holds may no longer have that symmetry once we rewrite it in terms of our chosen ground state. We call this type of symmetry-breaking "spontaneous", because no external agent has instigated it.
+
+By applying this technique to our Lagrangian, we get a massive field (hooray!), but also some *massless* (so-called "Goldstone") bosons. Which is less good.
 
 ## The Higgs Mechanism
+
+What do we do now?! 
+
+Local gauge invariance, is what. It turns out that we can *choose* a gauge (that is, choose a specific transformation) such that the Goldstone bosons disappear entirely! Remember, because our Lagrangian is invariant under such transformations, we are completely free to do this. 
+
+You might consider this as essentially "rephrasing" the problem, to "absorb" the Goldstone bosons into an adjusted form of the massive boson. We do this to match what we observe in reality (i.e. that none of these Goldstone bosons exist) - if we *did* observe the Goldstone bosons, we'd just do away with the gauge transformation.
+
+Now, as you may have guessed, this massive boson that we are left with is the famous Higgs boson. And we can now see why it is described as "giving mass to" other particles (it has couplings to the quarks and leptons as well, "granting" them mass): when we introduce this Higgs mechanism, the particles to which it couples gain mass terms.
+
+## Wrap-up
+
+Hopefully this was an interesting introduction to the Higgs mechanism. If you want to read a more rigorous introduction, then Griffiths' Introduction to Elementary Particles is a good shout; this post is based on his description of the Higgs mechanism, but with the maths mostly stripped out and so on.
+
+I don't know what I'll cover next. I'm thinking of starting a weekly paper-summarisation post, picking a pre-print from ArXiV and going through it a bit.
