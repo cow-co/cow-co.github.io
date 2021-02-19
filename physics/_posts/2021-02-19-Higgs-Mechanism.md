@@ -36,11 +36,11 @@ $$\psi \rightarrow e^{i\theta(x)}\psi$$
 
 where we use the relativistic convention of having $$x$$ mean all four coordinates of a space-time position. This transformation will generally introduce an extra term (from the derivatives of $$\theta$$) onto our naïve Lagrangian.
 
-Something interesting happens, however, when we *require* that local gauge invariance holds for our Lagrangian. This will require us to put in a term to compensate for that which pops out of the $$\theta$$ derivatives. Specifically, we are obliged to introduce *new fields*. These fields themselves must have even more terms, which correspond to the "free" Lagrangians for those fields. So what we are left with is essentially:
+Something interesting happens, however, when we *require* that local gauge invariance holds for our Lagrangian. This will require us to put in a term to compensate for that which pops out of the $$\theta$$ derivatives. Specifically, we are obliged to introduce *new fields* (called "gauge fields"). These fields themselves must have even more terms, which correspond to the "free" Lagrangians for those fields. So what we are left with is essentially:
 
 - Free Lagrangian(s) for our original field(s)
 - Some gauge-transformation-compensating term(s) involving some combination of new and original fields
-- Free Lagrangians for the new field(s)
+- Free Lagrangians for the gauge field(s)
 
 Now, we've treated $$\theta$$ so far as if it's a scalar (just a number); but we can make it a vector or tensor or whatever.
 
@@ -68,7 +68,7 @@ By applying this technique to our Lagrangian, we get a massive field (which is f
 
 We've been obliged to introduce even more fields, some of which are *massless*, and we still don't have anything that looks like our massive weak mediators. What do we do now?! 
 
-Local gauge invariance, is what. It turns out that we can *choose* a gauge (that is, choose a specific transformation) such that the Goldstone bosons disappear entirely! Remember, because our Lagrangian is invariant under such transformations, we are completely free to do this. 
+Local gauge invariance, is what. It turns out that we can *choose* a gauge (that is, choose a specific transformation) such that the Goldstone bosons disappear entirely, and our weak mediators pop out as gauge fields! Remember, because our Lagrangian is invariant under such transformations, we are completely free to do this. 
 
 You might consider this as essentially "rephrasing" the problem, to "absorb" the Goldstone bosons into an adjusted form of the massive boson. We do this to match what we observe in reality (i.e. that none of these Goldstone bosons exist) - if we *did* observe the Goldstone bosons, we'd just do away with the gauge transformation.
 
