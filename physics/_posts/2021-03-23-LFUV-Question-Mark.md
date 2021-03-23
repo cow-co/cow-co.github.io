@@ -8,7 +8,7 @@ So you may have heard today (23rd March 2021) that CERN has published some resul
 
 ## Intro
 
-Quick introduction. Today, the LHCb collaboration (you can read about the little bit of work I've done with them [elsewhere on this blog]({ % post_url 2020-08-25-B-Decays %})) released [a paper](https://arxiv.org/pdf/2103.11769.pdf) onto ArXiV, showing some evidence pointing towards physics beyond the Standard Model.
+Quick introduction. Today, the LHCb collaboration (you can read about the little bit of work I've done with them [elsewhere on this blog]({% post_url /physics/2020-08-25-B-Decays %})) released [a paper](https://arxiv.org/pdf/2103.11769.pdf) onto ArXiV, showing some evidence pointing towards physics beyond the Standard Model.
 
 The evidence is not concrete; it's a solid *hint* at new physics, but not *proof* of it. The significance of the tension is $$3.1\sigma$$, whereas the usual baseline for a "discovery" is $$5\sigma$$. But 3.1 is still a tantalising glimpse (a similar tension exists in the angular observables for $$B^0_s \rightarrow K^{*0} \mu^+ \mu^-$$).
 
